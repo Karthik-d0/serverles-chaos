@@ -1,0 +1,63 @@
+{
+  "name": "items-app",
+  "functions": [
+    {
+      "name": "process-item",
+      "timeout_s": 10,
+      "memory_mb": 128,
+      "has_dlq": null,
+      "notes": "synchronous entry point: writes Items then publishes an event"
+    },
+    {
+      "name": "consume-event",
+      "timeout_s": 10,
+      "memory_mb": 128,
+      "has_dlq": null,
+      "notes": "SQS-triggered consumer that writes Processed"
+    }
+  ],
+  "tables": [
+    {
+      "name": "Items",
+      "notes": ""
+    },
+    {
+      "name": "Processed",
+      "notes": ""
+    }
+  ],
+  "queues": [
+    {
+      "name": "events-queue",
+      "has_dlq": false,
+      "notes": ""
+    }
+  ],
+  "edges": [
+    {
+      "src": "events-queue",
+      "dst": "consume-event",
+      "kind": "triggers"
+    },
+    {
+      "src": "process-item",
+      "dst": "Items",
+      "kind": "writes"
+    },
+    {
+      "src": "process-item",
+      "dst": "events-queue",
+      "kind": "sends"
+    },
+    {
+      "src": "consume-event",
+      "dst": "Processed",
+      "kind": "writes"
+    }
+  ],
+  "weaknesses": [
+    "no DLQ on events-queue",
+    "no retry/backoff in process-item",
+    "no idempotency key: duplicate messages are reprocessed"
+  ]
+}

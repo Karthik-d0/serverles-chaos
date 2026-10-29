@@ -1,0 +1,10 @@
+services:
+  localstack:
+    image: localstack/localstack
+    ports: ["4566:4566"]
+    environment:
+      - LOCALSTACK_AUTH_TOKEN=${LOCALSTACK_AUTH_TOKEN:?set LOCALSTACK_AUTH_TOKEN in .env}
+      - SERVICES=lambda,dynamodb,sqs,iam,logs
+      - LAMBDA_RUNTIME_ENVIRONMENT_TIMEOUT=30
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock

@@ -1,0 +1,9 @@
+{
+  "topology": "examples/items_app/topology.json",
+  "workload": {"type": "eventflow", "producer": "process-item", "sink_table": "Processed", "deadline_s": 5},
+  "steady_state": {
+    "description": "Every submitted item is processed end-to-end (appears in Processed) within 5 s.",
+    "success_rate_min": 0.99, "p95_ms_max": 3000, "min_samples": 10
+  },
+  "baseline_s": 20, "fault_window_s": 15, "recovery_s": 15, "heal_timeout_s": 60, "concurrency": 4
+}

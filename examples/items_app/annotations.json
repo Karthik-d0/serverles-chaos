@@ -1,0 +1,9 @@
+{
+  "edges": [
+    {"src": "process-item", "dst": "Items", "kind": "writes"},
+    {"src": "process-item", "dst": "events-queue", "kind": "sends"},
+    {"src": "consume-event", "dst": "Processed", "kind": "writes"}
+  ],
+  "weaknesses": ["no DLQ on events-queue", "no retry/backoff in process-item", "no idempotency key: duplicate messages are reprocessed"],
+  "notes": {"process-item": "synchronous entry point: writes Items then publishes an event", "consume-event": "SQS-triggered consumer that writes Processed"}
+}

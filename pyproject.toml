@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "serverless-chaos"
+version = "0.1.0"
+description = "Adaptive, safe chaos engineering for event-driven serverless applications (LocalStack-first)."
+requires-python = ">=3.10"
+dependencies = ["boto3>=1.34", "pydantic>=2.5", "httpx>=0.27"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "moto[dynamodb,sqs]>=5"]
+
+[project.scripts]
+sls-chaos = "serverless_chaos.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# Default run = fast unit tests against moto. Real LocalStack tests: `pytest -m integration` (see README).
+addopts = "-m 'not integration'"
+markers = ["integration: needs a running LocalStack with the sample app deployed; never run against moto"]
