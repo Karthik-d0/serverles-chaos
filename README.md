@@ -1,8 +1,7 @@
 # serverless-chaos
 
 Adaptive, safe chaos engineering for **event-driven serverless applications** (Lambda, SQS, DynamoDB), built LocalStack-first.
-Design reference: [ChaosEater](https://github.com/ntt-dkiku/chaos-eater) (Kubernetes). This repo shares no code with it; see
-[docs/CHAOSEATER_MAPPING.md](docs/CHAOSEATER_MAPPING.md) for what was borrowed as an idea and what had to be redesigned.
+
 
 ## What exists (Major Project phase 1 = objectives 1 and 2)
 
